@@ -101,13 +101,17 @@
                     text = item[options.text];
                 }
 
-                $('<option>', {
-                    value: item[options.value],
-                    text: text,
-                    selected: (selected.some(function (e) { return e[options.value] === item[options.value] }) === true)
-                }).appendTo(options.element);
+                var isSelected = (selected.some(function (e) { return e[options.value] === item[options.value] }) === true);
+                if (!isSelected) {
+                    $('<option>', {
+                        value: item[options.value],
+                        text: text,
+                        selected: isSelected
+                    }).appendTo(options.element);
+                } else { // is already in the options list
+                    $(options.element).find("option[value=" + item[options.value] + "]").attr("selected", true);
+                }
             });
-
             construct(options);
         });
     }

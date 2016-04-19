@@ -4,6 +4,7 @@
  *
  * Copyright (c) 2014 Geodan B.V.
  * Created by: Alex van den Hoogen
+ * Forked by: Patrick Fust (https://github.com/patrickfust/DualListBox)
  *
  * Usage:
  *   Create a <select> and apply this script to that select via jQuery like so:
@@ -57,7 +58,8 @@
                 availableText:$(this).data('availableText'),
                 selectedText: $(this).data('selectedText'),
                 showingText:  $(this).data('showingText'),
-                filterText:  $(this).data('filterText')
+                filterText:   $(this).data('filterText'),
+                id:           $(this).attr('id')
             };
 
             var options = $.extend({}, defaults, htmlOptions, paramOptions);
@@ -90,7 +92,6 @@
                 multipleTextFields = true;
             }
         }
-
         $.getJSON(options.uri, function(json) {
             $.each(json, function(key, item) {
                 var text = '';
@@ -197,6 +198,7 @@
     /** Creates a new dual list box with the right buttons and filter. */
     function createDualListBox(options) {
         $(options.element).parent().attr('id', options.parent);
+        var idForInput = options.id != null ? " id='" + options.id + "'" : "";
         $(options.parentElement).addClass('row').append(
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
             '       <h4><span class="unselected-title"></span> <small>- ' + options.showingText + ' <span class="unselected-count"></span></small></h4>' +
@@ -209,7 +211,7 @@
             '       <h4><span class="selected-title"></span> <small>- ' + options.showingText + ' <span class="selected-count"></span></small></h4>' +
             '       <input class="filter form-control filter-selected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn)) +
-            '       <select class="selected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple></select>' +
+            '       <select class="selected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple ' + idForInput+ '></select>' +
             '   </div>');
 
         $(options.parentElement + ' .selected').prop('name', $(options.element).prop('name'));

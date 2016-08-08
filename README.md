@@ -36,6 +36,14 @@ mixed and matched within the select or Javascript. The current options are:
 | `filterText`      | String  | Filter          | Filter text
 | `changeCallback`  | Function| Empty function  | Function to call when the selected options changes 
 
+## Example
+I want to:
+- Mark all elements with class `dual-list-box` and make create them as dual lists.
+- Setting customs texts.
+- Specify a callback function, so I can do something when a change occurs.
+ 
+`$('.dual-list-box').DualListBox({selectedText: 'My chosen text', availableText: 'My available text', filterText: 'My Filter text...', showingText: 'My showing text', changeCallback: function(eventObject) {somethingChanged(eventObject)} });`
+
 ## [Demo](http://geodan.github.io/duallistbox/index.html)
 
 Small demo that shows the functionality of the plugin. 

@@ -73,6 +73,7 @@
             options['parentElement'] = '#' + options.parent;
 
             selected = $.extend([{}], selected);
+            $.each(options.element.options, function(idx, anOption) {selected.push(anOption.value); });
 
             if (options.json) {
                 addElementsViaJSON(options, selected);
@@ -103,7 +104,7 @@
                     text = item[options.text];
                 }
 
-                var isSelected = (selected.some(function (e) { return e[options.value] === item[options.value] }) === true);
+                var isSelected = (selected.some(function (e) { return e[options.value] === item[options.value] || e === item[options.value] }) === true);
                 if (!isSelected) {
                     $('<option>', {
                         value: item[options.value],

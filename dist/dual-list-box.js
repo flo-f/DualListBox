@@ -129,6 +129,15 @@
         var unselected = $(options.parentElement + ' .unselected');
         var selected = $(options.parentElement + ' .selected');
 
+        function afterOptionMoved() {
+            unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
+            selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
+
+            handleMovement(options);
+
+            selected.trigger('change');
+        }
+
         $(options.parentElement).find('button').bind('click', function() {
             switch ($(this).data('type')) {
                 case 'str': /* Selected to the right. */
@@ -161,13 +170,7 @@
                     break;
                 default: break;
             }
-
-            unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
-            selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
-
-            handleMovement(options);
-
-            selected.trigger('change');
+            afterOptionMoved();
         });
 
         $(options.parentElement).closest('form').submit(function() {
@@ -178,6 +181,18 @@
             if (e.which === 13) {
                 event.preventDefault();
             }
+        });
+
+        $(options.parentElement).find('select').on('dblclick', function() {
+            var $this = $(this),
+                $selectedOption = $this.find('option:selected');
+
+            if ($this.hasClass('unselected')) {
+                $selectedOption.appendTo(selected).attr('selected', false);
+            } else if ($this.hasClass('selected')) {
+                $selectedOption.appendTo(unselected).attr('selected', false);
+            }
+            afterOptionMoved();
         });
 
         selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();

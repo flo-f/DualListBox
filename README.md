@@ -32,6 +32,8 @@ mixed and matched within the select or Javascript. The current options are:
 | `warning`         | String  | <...>           | Warning message that is displayed when trying to move large amounts of elements. |
 | `availableText`   | String  | Available       | Text shown for available options |
 | `selectedText`    | String  | Selected        | Text shown for selected options |
+| `beforeCount`     | String  | -               | Opening separator for `showingText`and element count. Could be a dash or an opening bracket. |
+| `afterCount`      | String  |                 | Closing separator for `showingText`and element count. Could be empty or a closing bracket. |
 | `showingText`     | String  | showing         | Text shown for how many elements there are in the list |
 | `filterText`      | String  | Filter          | Filter text
 | `changeCallback`  | Function| Empty function  | Function to call when the selected options changes 

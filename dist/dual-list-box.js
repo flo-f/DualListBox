@@ -39,6 +39,8 @@
                 warning:    'Are you sure you want to move this many items? Doing so can cause your browser to become unresponsive.',
                 availableText: 'Available',
                 selectedText: 'Selected',
+                beforeCount: '- ',
+                afterCount: '',
                 showingText: 'showing',
                 filterText: 'Filter',
                 changeCallback: function() {}   // Callback function when the selected elements changes
@@ -59,6 +61,8 @@
                 selectClass:  $(this).data('selectClass'),
                 availableText:$(this).data('availableText'),
                 selectedText: $(this).data('selectedText'),
+                beforeCount:  $(this).data('beforeCount'),
+                afterCount:   $(this).data('afterCount'),
                 showingText:  $(this).data('showingText'),
                 filterText:   $(this).data('filterText'),
                 id:           $(this).attr('id')
@@ -200,20 +204,26 @@
         toggleButtons(parentElement);
     }
 
+    function countArea(options, className) {
+        return '<small> '+ options.beforeCount + options.showingText 
+            + '<span class="' + className + '"></span>' 
+            + options.afterCount + '</small>';
+    }
+
     /** Creates a new dual list box with the right buttons and filter. */
     function createDualListBox(options) {
         $(options.element).parent().attr('id', options.parent);
         var idForInput = options.id != null ? " id='" + options.id + "'" : "";
         $(options.parentElement).addClass('row').append(
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
-            '       <h4><span class="unselected-title"></span> <small>- ' + options.showingText + ' <span class="unselected-count"></span></small></h4>' +
+            '       <h4><span class="unselected-title"></span> ' + countArea(options, 'unselected-count') + '</h4>' +
             '       <input class="filter form-control filter-unselected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(1, options.moveAllBtn)) +
             '       <select class="unselected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple></select>' +
             '   </div>' +
             (options.horizontal == false ? createVerticalButtons(options.moveAllBtn) : '') +
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
-            '       <h4><span class="selected-title"></span> <small>- ' + options.showingText + ' <span class="selected-count"></span></small></h4>' +
+            '       <h4><span class="selected-title"></span> ' + countArea(options, 'selected-count') + '</h4>' +
             '       <input class="filter form-control filter-selected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn)) +
             '       <select class="selected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple ' + idForInput+ '></select>' +

@@ -5,6 +5,7 @@
  * Copyright (c) 2014 Geodan B.V.
  * Created by: Alex van den Hoogen
  * Forked by: Patrick Fust (https://github.com/patrickfust/DualListBox)
+ * Forked by: Florian Feigenbutz (https://github.com/flo-f/DualListBox)
  *
  * Usage:
  *   Create a <select> and apply this script to that select via jQuery like so:
@@ -328,10 +329,14 @@
             $(select).data('options', options);
 
             $(textBox).bind('change keyup', function() {
+                RegExp.escape = function( value ) {
+                    return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+                }
+
                 delay(function() {
                     var options = $(select).data('options');
                     var search = $.trim($(textBox).val());
-                    var regex = new RegExp(search,'gi');
+                    var regex = new RegExp(RegExp.escape(search),'gi');
 
                     $.each(options, function(i) {
                         if(options[i].text.match(regex) === null) {

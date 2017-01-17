@@ -46,6 +46,7 @@
                 afterCount: '',
                 showingText: 'showing',
                 filterText: 'Filter',
+                sort:       'case-insensitive',
                 changeCallback: function() {}   // Callback function when the selected elements changes
             };
 
@@ -68,6 +69,7 @@
                 afterCount:   $(this).data('afterCount'),
                 showingText:  $(this).data('showingText'),
                 filterText:   $(this).data('filterText'),
+                sort:         $(this).data('sort'),
                 id:           $(this).attr('id')
             };
 
@@ -134,8 +136,8 @@
         var selected = $(options.parentElement + ' .selected');
 
         function afterOptionMoved() {
-            unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
-            selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
+            unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions(options);
+            selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions(options);
 
             handleMovement(options);
 
@@ -207,8 +209,8 @@
             afterOptionMoved();
         });
 
-        selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
-        unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions();
+        selected.filterByText($(options.parentElement + ' .filter-selected'), options.timeout, options.parentElement).scrollTop(0).sortOptions(options);
+        unselected.filterByText($(options.parentElement + ' .filter-unselected'), options.timeout, options.parentElement).scrollTop(0).sortOptions(options);
     }
 
     /** Constructs the jQuery plugin after the elements have been retrieved. */
@@ -398,12 +400,19 @@
     };
 
     /** Sorts options in a select / list box. */
-    $.fn.sortOptions = function() {
+    $.fn.sortOptions = function(options) {
         return this.each(function() {
-            $(this).append($(this).find('option').remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt) ? 1 : ((at < bt) ? -1 : 0);
-            }));
+            var option = $(this).find('option').remove();
+            if (options.sort !== false) {
+                option.sort(function(a, b) {
+                    var at = $(a).text(), bt = $(b).text();
+                    if (options.sort === 'case-insensitive') {
+                        at = at.toLowerCase(), bt = bt.toLowerCase();
+                    }
+                    return (at > bt) ? 1 : ((at < bt) ? -1 : 0);
+                });
+            }
+            $(this).append(option);
         });
     };
 

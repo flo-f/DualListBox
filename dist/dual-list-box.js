@@ -277,6 +277,7 @@
         $(options.element).parent().attr('id', options.parent);
         var idForInput = options.id != null ? " id='" + options.id + "'" : "";
         $(options.parentElement).addClass('row').append(
+            '<style>.dual-list-box-container .center-block button.btn { line-height: 1em; } @media (max-width: 991px) { .dual-list-box-container .center-block button.btn { padding: 10px; transform: rotate(90deg); } } @media (min-width: 992px) and (max-width: 1400px) { .dual-list-box-container .center-block button.btn { min-width: 25px; padding-left: 5px; padding-right: 5px; } }</style>' +
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
             '       <h4><span class="unselected-title"></span> ' + countArea('unselected', options, 'unselected-count') + '</h4>' +
             '       <input class="filter form-control filter-unselected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
@@ -306,21 +307,21 @@
     /** Creates the buttons when the dual list box is set in horizontal mode. */
     function createHorizontalButtons(number, copyAllBtn) {
         if (number == 1) {
-            return (copyAllBtn ? '       <button type="button" class="btn btn-default atr" data-type="atr" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-list"></span> <span class="glyphicon glyphicon-chevron-right"></span></button>': '') +
+            return (copyAllBtn ? '       <button type="button" class="btn btn-default atr" data-type="atr" style="margin-bottom: 5px"><span class="glyphicon glyphicons-fast-forward"></span></button>': '') +
                 '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'pull-right col-md-6' : 'col-md-12') + ' str" data-type="str" style="margin-bottom: 5px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>';
         } else {
             return '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'col-md-6' : 'col-md-12') + ' stl" data-type="stl" style="margin-bottom: 5px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
-                (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-6 pull-right atl" data-type="atl" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-chevron-left"></span> <span class="glyphicon glyphicon-list"></span></button>' : '');
+                (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-6 pull-right atl" data-type="atl" style="margin-bottom: 5px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '');
         }
     }
 
     /** Creates the buttons when the dual list box is set in vertical mode. */
     function createVerticalButtons(copyAllBtn) {
-        return '   <div class="col-md-2 center-block" style="margin-top: ' + (copyAllBtn ? '80px' : '130px') +'">' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-list"></span> <span class="glyphicon glyphicon-chevron-right"></span></button>' : '') +
+        return '   <div class="col-md-2 center-block" style="margin-top: ' + (copyAllBtn ? '40px' : '130px') +'">' +
+            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-forward"></span></button>' : '') +
             '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 str" data-type="str" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>' +
             '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 stl" data-type="stl" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-chevron-left"></span> <span class="glyphicon glyphicon-list"></span></button>' : '') +
+            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '') +
             '   </div>';
     }
 

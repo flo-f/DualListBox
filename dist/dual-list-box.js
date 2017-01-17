@@ -44,6 +44,7 @@
                 selectedText: 'Selected',
                 beforeCount: '- ',
                 afterCount: '',
+                maxSelectable: undefined,
                 showingText: 'showing',
                 filterText: 'Filter',
                 sort:       'case-insensitive',
@@ -67,6 +68,7 @@
                 selectedText: $(this).data('selectedText'),
                 beforeCount:  $(this).data('beforeCount'),
                 afterCount:   $(this).data('afterCount'),
+                maxSelectable:$(this).data('maxSelectable'),
                 showingText:  $(this).data('showingText'),
                 filterText:   $(this).data('filterText'),
                 sort:         $(this).data('sort'),
@@ -222,7 +224,19 @@
 
     /** Counts the elements per list box/select and shows it. */
     function countElements(parentElement) {
-        var countUnselected = 0, countSelected = 0;
+        var countUnselected = 0, countSelected = 0, $small = $(parentElement + ' .selected-title+small');
+
+        function getMaxSelectable() {
+            return parseInt($small.attr('data-max-selectable'));
+        }
+
+        function hasMaxSelectable() {
+            return getMaxSelectable() !== undefined && getMaxSelectable() > 0;
+        }
+
+        function hasExceededMaxSelectable(countSelected) {
+            return hasMaxSelectable() && countSelected > getMaxSelectable();
+        }
 
         $(parentElement + ' .unselected').find('option').each(function() { if ($(this).isVisible()) { countUnselected++; } });
         $(parentElement + ' .selected').find('option').each(function() { if ($(this).isVisible()) { countSelected++ } });
@@ -230,13 +244,32 @@
         $(parentElement + ' .unselected-count').text(countUnselected);
         $(parentElement + ' .selected-count').text(countSelected);
 
+        if (hasExceededMaxSelectable(countSelected)) {
+            $small.css('color', '#f00');
+            $small.parents('h4').css('color', '#f00');
+        } else {
+            $small.css('color', '');
+            $small.parents('h4').css('color', '');
+        }
+
         toggleButtons(parentElement);
     }
 
-    function countArea(options, className) {
-        return '<small> '+ options.beforeCount + options.showingText 
-            + '<span class="' + className + '"></span>' 
-            + options.afterCount + '</small>';
+    function countArea(type, options, className) {
+        function hasMaxSelectable() {
+            return type === 'selected' && options.maxSelectable && options.maxSelectable > 0;
+        }
+        function dataAttribute() {
+            return hasMaxSelectable() ? 'data-max-selectable="' + options.maxSelectable + '"' : '';
+        }
+
+        return '<small ' + dataAttribute() + '> '
+            + options.beforeCount 
+                + options.showingText 
+                + '<span class="' + className + '"></span>'
+            + (hasMaxSelectable() ? ' of <span class="max-selectable">' + options.maxSelectable + '</span>' : '')
+            + options.afterCount 
+            + '</small>';
     }
 
     /** Creates a new dual list box with the right buttons and filter. */
@@ -245,14 +278,14 @@
         var idForInput = options.id != null ? " id='" + options.id + "'" : "";
         $(options.parentElement).addClass('row').append(
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
-            '       <h4><span class="unselected-title"></span> ' + countArea(options, 'unselected-count') + '</h4>' +
+            '       <h4><span class="unselected-title"></span> ' + countArea('unselected', options, 'unselected-count') + '</h4>' +
             '       <input class="filter form-control filter-unselected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(1, options.moveAllBtn)) +
             '       <select class="unselected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple></select>' +
             '   </div>' +
             (options.horizontal == false ? createVerticalButtons(options.moveAllBtn) : '') +
             (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
-            '       <h4><span class="selected-title"></span> ' + countArea(options, 'selected-count') + '</h4>' +
+            '       <h4><span class="selected-title"></span> ' + countArea('selected', options, 'selected-count') + '</h4>' +
             '       <input class="filter form-control filter-selected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn)) +
             '       <select class="selected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple ' + idForInput+ '></select>' +

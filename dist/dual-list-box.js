@@ -20,6 +20,9 @@
  */
 
 (function($) {
+    var _locked = false,
+        _parentElement = undefined;
+
     /** Initializes the DualListBox code as jQuery plugin. */
     $.fn.DualListBox = function(paramOptions, selected) {
         return this.each(function () {
@@ -76,6 +79,7 @@
 
             options['parent'] = 'dual-list-box-' + options.title.replace(/ /g, '_');
             options['parentElement'] = '#' + options.parent;
+            _parentElement = options['parentElement'];
 
             selected = $.extend([{}], selected);
             $.each(options.element.options, function(idx, anOption) {selected.push(anOption.value); });
@@ -139,6 +143,10 @@
         }
 
         $(options.parentElement).find('button').bind('click', function() {
+            if (isLocked()) {
+                return;
+            }
+
             switch ($(this).data('type')) {
                 case 'str': /* Selected to the right. */
                     unselected.find('option:selected').appendTo(selected);
@@ -186,6 +194,10 @@
         $(options.parentElement).find('select').on('dblclick', function() {
             var $this = $(this),
                 $selectedOption = $this.find('option:selected');
+
+            if (isLocked()) {
+                return;
+            }
 
             if ($this.hasClass('unselected')) {
                 $selectedOption.appendTo(selected).attr('selected', false);
@@ -249,6 +261,9 @@
         $(options.parentElement + ' .selected-title').text(options.selectedText + ' ' + options.title);
 
         $("[" + idForInput + "]").change(function(eventObject) {
+            if (isLocked()) {
+                return;
+            }
             options.changeCallback(eventObject)
         });
     }
@@ -391,6 +406,30 @@
             }));
         });
     };
+
+    function uiElements() {
+        return $(_parentElement).find('select, input, button');
+    }
+
+    /** Locks the boxes and buttons until `unlock()` is called */
+    $.fn.lock = function() {
+        _locked = true;
+        uiElements().attr('disabled', _locked);
+        return _locked;
+    };
+
+    /** Unlocks the boxes and buttons from a preceding call to `lock()` */
+    $.fn.unlock = function() {
+        _locked = false;
+        uiElements().attr('disabled', _locked);
+        return _locked;
+    };
+
+    function isLocked() {
+        return _locked === true;
+    }
+
+    $.fn.isLocked = isLocked;
 
     /** Simple delay function that can wrap around an existing function and provides a callback. */
     var delay = (function() {

@@ -5,7 +5,7 @@
  * Copyright (c) 2014 Geodan B.V.
  * Created by: Alex van den Hoogen
  * Forked by: Patrick Fust (https://github.com/patrickfust/DualListBox)
- * Forked by: Florian Feigenbutz (https://github.com/nexto/DualListBox)
+ * Forked by: Florian Feigenbutz (https://github.com/smileback-com/DualListBox)
  *
  * Usage:
  *   Create a <select> and apply this script to that select via jQuery like so:
@@ -264,11 +264,11 @@
         }
 
         return '<small ' + dataAttribute() + '> '
-            + options.beforeCount 
-                + options.showingText 
+            + options.beforeCount
+                + options.showingText
                 + '<span class="' + className + '"></span>'
             + (hasMaxSelectable() ? ' of <span class="max-selectable">' + options.maxSelectable + '</span>' : '')
-            + options.afterCount 
+            + options.afterCount
             + '</small>';
     }
 
@@ -277,15 +277,15 @@
         $(options.element).parent().attr('id', options.parent);
         var idForInput = options.id != null ? " id='" + options.id + "'" : "";
         $(options.parentElement).addClass('row').append(
-            '<style>.dual-list-box-container .center-block button.btn { line-height: 1em; } @media (max-width: 991px) { .dual-list-box-container .center-block button.btn { padding: 10px; transform: rotate(90deg); } } @media (min-width: 992px) and (max-width: 1400px) { .dual-list-box-container .center-block button.btn { min-width: 25px; padding-left: 5px; padding-right: 5px; } }</style>' +
-            (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
+            '<style>.dual-list-box-container button.btn { line-height: 1em; } @media (max-width: 767px) { .dual-list-box-container button.btn { padding: 10px; transform: rotate(90deg); width: 40px; height: 40px; margin-left: 10px; } } @media (min-width: 992px) and (max-width: 1400px) { .dual-list-box-container button.btn { min-width: 25px; padding-left: 5px; padding-right: 5px; } }</style>' +
+            (options.horizontal == false ? '   <div class="col-md-5 col-sm-12 col-12">' : '   <div class="col-md-6">') +
             '       <h4><span class="unselected-title"></span> ' + countArea('unselected', options, 'unselected-count') + '</h4>' +
             '       <input class="filter form-control filter-unselected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(1, options.moveAllBtn)) +
             '       <select class="unselected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple></select>' +
             '   </div>' +
             (options.horizontal == false ? createVerticalButtons(options.moveAllBtn) : '') +
-            (options.horizontal == false ? '   <div class="col-md-5">' : '   <div class="col-md-6">') +
+            (options.horizontal == false ? '   <div class="col-md-5 col-sm-12 col-12">' : '   <div class="col-md-6">') +
             '       <h4><span class="selected-title"></span> ' + countArea('selected', options, 'selected-count') + '</h4>' +
             '       <input class="filter form-control filter-selected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
             (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn)) +
@@ -317,11 +317,11 @@
 
     /** Creates the buttons when the dual list box is set in vertical mode. */
     function createVerticalButtons(copyAllBtn) {
-        return '   <div class="col-md-2 center-block" style="margin-top: ' + (copyAllBtn ? '40px' : '130px') +'">' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-forward"></span></button>' : '') +
-            '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 str" data-type="str" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>' +
-            '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 stl" data-type="stl" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '') +
+        return '   <div class="col-md-2 col-sm-12 text-center" style="margin-top: ' + (copyAllBtn ? '20px' : '130px') +'">' +
+            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-forward"></span></button>' : '') +
+            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 str" data-type="str" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>' +
+            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 stl" data-type="stl" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
+            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '') +
             '   </div>';
     }
 

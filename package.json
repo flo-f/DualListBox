@@ -21,7 +21,7 @@
     "Florian Feigenbutz (https://github.com/flo-f)",
     "Henrik Heimbuerger (https://github.com/hheimbuerger)"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/smileback-com/DualListBox/issues"
   },

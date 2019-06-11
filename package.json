@@ -1,0 +1,29 @@
+{
+  "name": "dual-list-box",
+  "version": "1.0.0",
+  "description": "Dual list box for Bootstrap and jQuery",
+  "main": "dist/dual-list-box.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smileback-com/DualListBox.git"
+  },
+  "keywords": [
+    "jquery",
+    "bootstrap",
+    "dual-list-box"
+  ],
+  "author": "Alex van den Hoogen (https://github.com/alex3305)",
+  "contributors": [
+    "Patrick Fust (https://github.com/patrickfust)",
+    "Florian Feigenbutz (https://github.com/flo-f)",
+    "Henrik Heimbuerger (https://github.com/hheimbuerger)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smileback-com/DualListBox/issues"
+  },
+  "homepage": "https://github.com/smileback-com/DualListBox#readme"
+}

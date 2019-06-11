@@ -15,11 +15,11 @@
     "bootstrap",
     "dual-list-box"
   ],
-  "author": "alex3305",
+  "author": "Alex van den Hoogen (https://github.com/alex3305)",
   "contributors": [
-    "patrickfust",
-    "flo-f",
-    "hheimbuerger"
+    "Patrick Fust (https://github.com/patrickfust)",
+    "Florian Feigenbutz (https://github.com/flo-f)",
+    "Henrik Heimbuerger (https://github.com/hheimbuerger)"
   ],
   "license": "ISC",
   "bugs": {

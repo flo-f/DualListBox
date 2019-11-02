@@ -29,14 +29,15 @@ mixed and matched within the select or Javascript. The current options are:
 | `textLength`      | UInt    | 45              | Maximum text length of when the element should contain title-attributes. |
 | `moveAllBtn`      | Boolean | true            | Whether to display the move all button (from left to right or vice-versa). |
 | `maxAllBtn`       | UInt    | 500             | Integer to determine from which length to display the warning message below. |
+| `iconSet`         | String  | glyphicon       | Icon set: glyphicon or fontawesome |
 | `warning`         | String  | <...>           | Warning message that is displayed when trying to move large amounts of elements. |
 | `availableText`   | String  | Available       | Text shown for available options |
 | `selectedText`    | String  | Selected        | Text shown for selected options |
 | `beforeCount`     | String  | -               | Opening separator for `showingText`and element count. Could be a dash or an opening bracket. |
 | `afterCount`      | String  |                 | Closing separator for `showingText`and element count. Could be empty or a closing bracket. |
 | `showingText`     | String  | showing         | Text shown for how many elements there are in the list |
-| `filterText`      | String  | Filter          | Filter text
-| `changeCallback`  | Function| Empty function  | Function to call when the selected options changes 
+| `filterText`      | String  | Filter          | Filter text |
+| `changeCallback`  | Function| Empty function  | Function to call when the selected options changes |
 
 ## Example
 I want to:

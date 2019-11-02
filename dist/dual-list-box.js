@@ -38,6 +38,7 @@
                 textLength: 45,                 // Maximum text length that is displayed in the select.
                 moveAllBtn: true,               // Whether the append all button is available.
                 maxAllBtn:  500,                // Maximum size of list in which the all button works without warning. See below.
+                iconSet: 'glyphicon',           // Icon set: glyphicon or fontawesome
                 selectClass:'form-control',
                 warning:    'Are you sure you want to move this many items? Doing so can cause your browser to become unresponsive.',
                 availableText: 'Available',
@@ -63,6 +64,7 @@
                 textLength:   $(this).data('textLength'),
                 moveAllBtn:   $(this).data('moveAllBtn'),
                 maxAllBtn:    $(this).data('maxAllBtn'),
+                iconSet:      $(this).data('iconSet'),
                 selectClass:  $(this).data('selectClass'),
                 availableText:$(this).data('availableText'),
                 selectedText: $(this).data('selectedText'),
@@ -281,14 +283,14 @@
             (options.horizontal == false ? '   <div class="col-md-5 col-sm-12 col-12">' : '   <div class="col-md-6">') +
             '       <h4><span class="unselected-title"></span> ' + countArea('unselected', options, 'unselected-count') + '</h4>' +
             '       <input class="filter form-control filter-unselected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
-            (options.horizontal == false ? '' : createHorizontalButtons(1, options.moveAllBtn)) +
+            (options.horizontal == false ? '' : createHorizontalButtons(1, options.moveAllBtn, getButtonClasses(options.iconSet))) +
             '       <select class="unselected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple></select>' +
             '   </div>' +
-            (options.horizontal == false ? createVerticalButtons(options.moveAllBtn) : '') +
+            (options.horizontal == false ? createVerticalButtons(options.moveAllBtn, getButtonClasses(options.iconSet)) : '') +
             (options.horizontal == false ? '   <div class="col-md-5 col-sm-12 col-12">' : '   <div class="col-md-6">') +
             '       <h4><span class="selected-title"></span> ' + countArea('selected', options, 'selected-count') + '</h4>' +
             '       <input class="filter form-control filter-selected" type="text" placeholder="' + options.filterText + '" style="margin-bottom: 5px;">' +
-            (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn)) +
+            (options.horizontal == false ? '' : createHorizontalButtons(2, options.moveAllBtn, getButtonClasses(options.iconSet))) +
             '       <select class="selected ' + options.selectClass + '" style="height: 200px; width: 100%;" multiple ' + idForInput+ '></select>' +
             '   </div>');
 
@@ -305,24 +307,42 @@
     }
 
     /** Creates the buttons when the dual list box is set in horizontal mode. */
-    function createHorizontalButtons(number, copyAllBtn) {
+    function createHorizontalButtons(number, copyAllBtn, buttonClass) {
         if (number == 1) {
-            return (copyAllBtn ? '       <button type="button" class="btn btn-default atr" data-type="atr" style="margin-bottom: 5px"><span class="glyphicon glyphicons-fast-forward"></span></button>': '') +
-                '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'pull-right col-md-6' : 'col-md-12') + ' str" data-type="str" style="margin-bottom: 5px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>';
+            return (copyAllBtn ? '       <button type="button" class="btn btn-default atr" data-type="atr" style="margin-bottom: 5px"><span class="'+buttonClass.addAll+'"></span></button>': '') +
+                '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'pull-right col-md-6' : 'col-md-12') + ' str" data-type="str" style="margin-bottom: 5px;" disabled><span class="'+buttonClass.addSelected+'"></span></button>';
         } else {
-            return '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'col-md-6' : 'col-md-12') + ' stl" data-type="stl" style="margin-bottom: 5px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
-                (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-6 pull-right atl" data-type="atl" style="margin-bottom: 5px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '');
+            return '       <button type="button" class="btn btn-default ' + (copyAllBtn ? 'col-md-6' : 'col-md-12') + ' stl" data-type="stl" style="margin-bottom: 5px;" disabled><span class="'+buttonClass.removeSelected+'"></span></button>' +
+                (copyAllBtn ? '       <button type="button" class="btn btn-default col-md-6 pull-right atl" data-type="atl" style="margin-bottom: 5px;"><span class="'+buttonClass.removeAll+'"></span></button>' : '');
         }
     }
 
     /** Creates the buttons when the dual list box is set in vertical mode. */
-    function createVerticalButtons(copyAllBtn) {
+    function createVerticalButtons(copyAllBtn, buttonClass) {
         return '   <div class="col-md-2 col-sm-12 text-center" style="margin-top: ' + (copyAllBtn ? '20px' : '130px') +'">' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-forward"></span></button>' : '') +
-            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 str" data-type="str" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-right"></span></button>' +
-            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 stl" data-type="stl" style="margin-bottom: 10px;" disabled><span class="glyphicon glyphicon-chevron-left"></span></button>' +
-            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="glyphicon glyphicons-fast-backward"></span></button>' : '') +
+            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atr" data-type="atr" style="margin-bottom: 10px;"><span class="'+buttonClass.addAll+'"></span></button>' : '') +
+            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 str" data-type="str" style="margin-bottom: 10px;" disabled><span class="'+buttonClass.addSelected+'"></span></button>' +
+            '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 stl" data-type="stl" style="margin-bottom: 10px;" disabled><span class="'+buttonClass.removeSelected+'"></span></button>' +
+            (copyAllBtn ? '       <button type="button" class="btn btn-outline-secondary col-md-8 col-md-offset-2 atl" data-type="atl" style="margin-bottom: 10px;"><span class="'+buttonClass.removeAll+'"></span></button>' : '') +
             '   </div>';
+    }
+    
+    function getButtonClasses(iconSet) {
+        if (iconSet === 'fontawesome') {
+            return {
+                addAll: 'fa fa-angle-double-right',
+                addSelected: 'fa fa-angle-right',
+                removeSelected: 'fa fa-angle-left',
+                removeAll: 'fa fa-angle-double-left'
+            };
+        } else { // default icon set
+            return {
+                addAll: 'glyphicon glyphicons-fast-forward',
+                addSelected: 'glyphicon glyphicon-chevron-right',
+                removeSelected: 'glyphicon glyphicon-chevron-left',
+                removeAll: 'glyphicon glyphicons-fast-backward'
+            };            
+        }
     }
 
     /** Specifically handles the movement when one or more elements are moved. */
